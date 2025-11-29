@@ -9,6 +9,12 @@
 - 统计结果弹窗显示（模型/字符/词数/Token），状态栏临时展示 Token 摘要。
 - 自动将统计结果追加到工作区根目录的 `token-counter-report.md`（若无工作区则写入全局存储）。
 
+## 内置模型词表
+- DeepSeek-R1
+- Kimi K2
+- Qwen3-32B
+- Qwen2.5-32B
+
 ## 使用
 1. 安装扩展后，打开任意文本文件。
 2. 点击编辑器右上角的 Token Counter 图标（或命令面板运行 `Token Counter: 统计当前文件`）。
@@ -18,7 +24,7 @@
 更多快捷键示例与用法见 `BasicCommand.md`。
 
 ## 增加模型词表
-- 将模型词表放入 `Vocab` 目录并命名为 `<model>-vocab.json`。
+- 将模型词表放入 `Vocab` 目录并命名为 `<model>-vocab.json` 或 `<model>_vocab.json`。
 - 文件需为 JSON，键为 tokenizer 的 token 字符串，值为其索引（计数时仅用到键）。
 - 重启 VS Code 或重载窗口后即可在模型列表看到新词表。
 

@@ -7,6 +7,7 @@ const path = require('path');
 const MODEL_CACHE = new Map();
 const LAST_MODEL_KEY = 'tokencounter.lastModel';
 const LOG_FILENAME = 'token-counter-report.md';
+const VOCAB_FILE_PATTERN = /[-_]vocab\.json$/i;
 
 /**
  * Reads vocab files from the bundled Vocab folder and caches them.
@@ -20,7 +21,7 @@ function loadModelVocabs(context) {
   let files = [];
 
   try {
-    files = fs.readdirSync(vocabDir).filter((file) => file.endsWith('-vocab.json'));
+    files = fs.readdirSync(vocabDir).filter((file) => VOCAB_FILE_PATTERN.test(file));
   } catch (err) {
     vscode.window.showErrorMessage(`Token Counter: 无法读取 Vocab 目录 (${err.message}).`);
     return [];
@@ -32,7 +33,7 @@ function loadModelVocabs(context) {
       const raw = fs.readFileSync(fullPath, 'utf8');
       const vocab = JSON.parse(raw);
       const maxTokenLength = Object.keys(vocab).reduce((max, key) => Math.max(max, key.length), 0);
-      const name = file.replace(/-vocab\.json$/i, '');
+      const name = file.replace(VOCAB_FILE_PATTERN, '');
       MODEL_CACHE.set(name, { name, vocab, maxTokenLength });
     } catch (err) {
       vscode.window.showWarningMessage(`Token Counter: 读取 ${file} 时出错 (${err.message}).`);
