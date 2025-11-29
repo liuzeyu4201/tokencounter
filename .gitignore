@@ -1,0 +1,13 @@
+# Dependencies / build output
+node_modules
+out
+dist
+
+# VS Code / packaging
+.vscode
+*.vsix
+
+# Logs / system files
+npm-debug.log*
+yarn-error.log*
+.DS_Store
