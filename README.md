@@ -7,6 +7,7 @@
 - 内置 Vocab 词表，按模型最长匹配贪心分词计算 Token。
 - 记忆上次选定的模型，Quick Pick 首项优先。
 - 统计结果弹窗显示（模型/字符/词数/Token），状态栏临时展示 Token 摘要。
+- 自动将统计结果追加到工作区根目录的 `token-counter-report.md`（若无工作区则写入全局存储）。
 
 ## 使用
 1. 安装扩展后，打开任意文本文件。
@@ -23,3 +24,10 @@
 
 ## 发布到商店
 按照 `User.md` 步骤准备发布者、打包 `.vsix` 并运行 `vsce publish`。
+
+## 通过 GitHub 分发
+1. 打包扩展：`vsce package`（生成形如 `tokencounter-0.0.x.vsix`）。  
+2. 创建 Git 标签（可选）：`git tag v0.0.x && git push origin v0.0.x`。  
+3. GitHub Releases：在仓库页面创建 Release，上传 `.vsix` 作为附件，说明版本变化，发布后任何人可直接下载。  
+4. GitHub Packages（可选）：在 Release 或 CI 中上传 `.vsix` 到 GitHub Packages，方便脚本化下载。  
+5. 在 README 的下载链接中引用最新 Release 资产，便于用户获取。

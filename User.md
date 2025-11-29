@@ -23,4 +23,4 @@
    - 确认版本号已更新，然后运行：`vsce publish`（或 `vsce publish minor/patch/major`）。  
    - 发布完成后，扩展会出现在 VS Code 扩展商店；可以在发布者页面管理后续更新。
 
-提示：若需要在扩展卡片展示图标，可在仓库中添加 `icon` 文件并在 `package.json` 中设置 `icon` 字段。
+

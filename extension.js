@@ -6,6 +6,7 @@ const path = require('path');
 
 const MODEL_CACHE = new Map();
 const LAST_MODEL_KEY = 'tokencounter.lastModel';
+const LOG_FILENAME = 'token-counter-report.md';
 
 /**
  * Reads vocab files from the bundled Vocab folder and caches them.
@@ -156,6 +157,13 @@ async function handleCountCommand(context) {
   ];
 
   vscode.window.showInformationMessage(messageLines.join('\n'));
+  appendStatsLog(context, {
+    modelName: model.name,
+    tokenCount,
+    wordCount,
+    charCount,
+    documentPath: editor.document.uri.fsPath
+  });
   vscode.window.setStatusBarMessage(`Token Counter • ${tokenCount} tokens (${model.name})`, 5000);
 }
 
@@ -178,3 +186,45 @@ module.exports = {
   activate,
   deactivate
 };
+
+function appendStatsLog(context, payload) {
+  const logPath = resolveLogPath(context);
+  const timestamp = new Date().toISOString().replace('T', ' ').split('.')[0];
+  const relativeFile = toRelativeFilePath(payload.documentPath);
+  const entry = `- [${timestamp}] 模型: ${payload.modelName}, 文件: ${relativeFile}, 字符: ${payload.charCount}, 词: ${payload.wordCount}, Token: ${payload.tokenCount}\n`;
+
+  try {
+    if (!fs.existsSync(logPath)) {
+      const header = '# Token Counter 统计日志\n\n';
+      fs.writeFileSync(logPath, header + entry, 'utf8');
+    } else {
+      fs.appendFileSync(logPath, entry, 'utf8');
+    }
+  } catch (err) {
+    vscode.window.showWarningMessage(`Token Counter: 写入统计日志失败 (${err.message}).`);
+  }
+}
+
+function resolveLogPath(context) {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+  if (workspaceFolders && workspaceFolders.length > 0) {
+    return path.join(workspaceFolders[0].uri.fsPath, LOG_FILENAME);
+  }
+
+  const storageDir = context.globalStorageUri.fsPath;
+  try {
+    fs.mkdirSync(storageDir, { recursive: true });
+  } catch {
+    // ignore dir creation failure; will surface in append
+  }
+  return path.join(storageDir, LOG_FILENAME);
+}
+
+function toRelativeFilePath(absolutePath) {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+  if (workspaceFolders && workspaceFolders.length > 0) {
+    const root = workspaceFolders[0].uri.fsPath;
+    return path.relative(root, absolutePath) || absolutePath;
+  }
+  return absolutePath;
+}

@@ -1,6 +1,6 @@
 {
-  "name": "tokencounter",
-  "displayName": "Token Counter",
+  "name": "tokencounter-pro",
+  "displayName": "Token Counter Pro",
   "description": "在文件右上角点击按钮，选择大模型并统计当前文件的字符、词数和 Token 数的 VS Code 扩展。",
   "version": "0.0.1",
   "publisher": "liuzeyu",
