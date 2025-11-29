@@ -1,0 +1,60 @@
+{
+  "name": "tokencounter",
+  "displayName": "Token Counter",
+  "description": "在文件右上角点击按钮，选择大模型并统计当前文件的字符、词数和 Token 数的 VS Code 扩展。",
+  "version": "0.0.1",
+  "publisher": "liuzeyu",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:tokencounter.countTokens",
+    "onCommand:tokencounter.selectModel"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tokencounter.countTokens",
+        "title": "Token Counter: 统计当前文件",
+        "category": "Token Counter"
+      },
+      {
+        "command": "tokencounter.selectModel",
+        "title": "Token Counter: 选择模型",
+        "category": "Token Counter"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "tokencounter.countTokens",
+          "group": "navigation",
+          "when": "editorTextFocus",
+          "alt": "tokencounter.selectModel"
+        }
+      ]
+    }
+  },
+  "files": [
+    "extension.js",
+    "Vocab"
+  ],
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/tokencounter.git"
+  },
+  "keywords": [
+    "token",
+    "counter",
+    "prompt",
+    "llm"
+  ]
+}
