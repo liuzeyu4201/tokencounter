@@ -41,15 +41,17 @@
   },
   "files": [
     "extension.js",
-    "Vocab"
+    "Vocab",
+    "meta/icon.png"
   ],
+  "icon": "meta/icon.png",
   "scripts": {
     "package": "vsce package",
     "publish": "vsce publish"
   },
   "repository": {
     "type": "git",
-    "url": "https://example.com/tokencounter.git"
+    "url": "https://github.com/liuzeyu4201/tokencounter.git"
   },
   "keywords": [
     "token",
